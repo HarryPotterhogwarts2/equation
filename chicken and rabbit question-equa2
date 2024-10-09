@@ -1,0 +1,58 @@
+'''
+All Equations:
+rabbit = y
+chicken = x
+x+y = 38
+2x+4y=112
+y=38-x
+2x+4(38-x)=112
+-2x=-40
+x=20
+y=38-20=18
+chicken=20 rabbit=18
+'''
+
+import sympy as sp
+
+def solve_linear_equation():
+    # 定义符号变量 x,y
+    x = sp.symbols('x', 'y')
+    
+    # 获取用户输入的方程
+    user_input = input("请输入一个二元一次方程: ")
+
+    try:
+        # 解析用户输入的方程
+        equation = sp.sympify(user_input)
+    except sp.SympifyError:
+        print("输入的方程无效，请输入正确的二元一次方程。")
+        return
+
+    # 检查输入是否为等式
+    if not isinstance(equation, sp.Equality):
+        print("请输入包含等号的方程")
+        return
+
+    # 打印输入的方程
+    print("\n输入方程为: ", equation)
+    
+    # 第一步：将方程转化为标准形式 ax + b = 0
+    print("步骤 1: 将方程转化为标准形式 ax + by = 0")
+    lhs, rhs = equation.lhs, equation.rhs
+    std_eq = sp.Eq(lhs - rhs, 0)
+    print("标准形式为: ", std_eq)
+
+    # 第二步：整理方程左边，将所有关于 x 的项移到左边，常数项移到右边
+    print("步骤 2: 将所有含 x 的项和y的项移到方程左边，常数项移到右边")
+    simplified_eq = sp.simplify(std_eq)
+    print("整理后的方程为: ", simplified_eq)
+
+    # 第三步：解方程
+    print("步骤 3: 解方程")
+    solution = sp.solve(simplified_eq, x)
+    print("方程的解为: x =，y =", solution)
+
+    return solution
+
+# 运行程序
+solve_linear_equation()
